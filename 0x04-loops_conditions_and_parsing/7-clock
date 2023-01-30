@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# This script displays a counter for hours and minutes
-# up to 12 hours
-HOUR=0
-MINUTE=1
-while [ $HOUR -le 12 ]; do
-    echo "Hour: ${HOUR}"
-    while [ $MINUTE -lt 60 ]; do
-	echo $MINUTE
-	let MINUTE+=1
-    done
-    let MINUTE=0
-    let HOUR+=1
+# Displays the time for 12 hours and 59 minutes
+i=0
+while ((i <= 12)); do
+	echo "Hour: $i"
+	j=1
+	while ((j <= 59)); do
+		echo $j
+		((j+=1))
+	done
+	((i+=1))
 done
