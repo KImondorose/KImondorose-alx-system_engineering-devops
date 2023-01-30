@@ -1,35 +1,20 @@
 #!/usr/bin/env bash
-# Write a script that manages the manage_my_process process:
-# If "start" argument passed:
-## Starts
-
-start_p() {
-    ./manage_my_process &
-    echo $$ > /var/run/my_process.pid
-}
-
-stop_p() {
-    rm /var/run/my_process.pid
-    pkill -of manage_my_process
-}
-
-has_arg_1() {
-    if [ "$CMD" == "start" ]; then
-	start_p
-	echo "manage_my_process started"
-    elif [ "$CMD" == "stop" ]; then
-	stop_p
-	echo "manage_my_process stopped"
-    elif [ "$CMD" == "restart" ]; then
-	stop_p
-	start_p
-	echo "manage_my_process restarted"
-    fi
-}
-
-if [ $# -gt 0 ]; then
-    CMD="$1"
-    has_arg_1
-else
-    echo "Usage: manage_your_process {start|stop|restart}"
-fi
+# manager for manage_my_process
+case $1 in
+    "start")
+	./manage_my_process & > /var/run/my_process.pid
+	echo 'manage_my_process started';;
+    "restart")
+	id=$(cat /var/run/my_process.pid)
+	kill -s SIGSTOP "$id"
+	rm /var/run/my_process.pid
+	./manage_my_process & > /var/run/my_process.pid
+	echo 'manage_my_process restarted';;
+    "stop")
+	id=$(cat /var/run/my_process.pid)
+	kill -s SIGSTOP "$id"
+	rm /var/run/my_process.pid
+	echo 'manage_my_process stopped';;
+    *)
+	echo 'Usage: manage_my_process {start|stop|restart}';;
+esac
