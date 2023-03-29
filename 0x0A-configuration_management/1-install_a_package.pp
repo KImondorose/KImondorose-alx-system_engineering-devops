@@ -1,6 +1,5 @@
-# Install puppet-lint
+# puppet declarative script to grab puppet-lint
 package { 'puppet-lint':
-  ensure   => 'latest',
-  name     => 'puppet-lint',
-  provider => 'gem'
+  ensure   => '2.1.1',
+  provider => 'gem',
 }
